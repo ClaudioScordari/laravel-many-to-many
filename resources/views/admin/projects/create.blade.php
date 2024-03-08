@@ -50,7 +50,7 @@
                                 </option>
     
                                 @foreach ($types as $type)
-                                    <option value="{{ $type->id }}">
+                                    <option {{ old('type_id') == $type->id ? 'selected' : '' }} value="{{ $type->id }}">
                                         {{ $type->name }}
                                     </option>
                                 @endforeach
