@@ -9,6 +9,9 @@ use Illuminate\Database\Seeder;
 use App\Models\Project;
 use App\Models\Type;
 
+// Helpers
+use Illuminate\Support\Facades\Schema;
+
 class ProjectSeeder extends Seeder
 {
     /**
@@ -16,11 +19,13 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        Project::truncate();
+        Schema::withoutForeignKeyConstraints(function () {
+            Project::truncate();
+        });
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 20; $i++) { 
             $project = Project::create([
-                'name' => fake()->word(),
+                'name' => ucfirst(fake()->word()),
                 'description' => fake()->text(),
                 'type_id' => Type::inRandomOrder()->first()->id
             ]);

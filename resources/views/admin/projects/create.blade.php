@@ -45,7 +45,7 @@
                             <label class="d-block" for="type_id">Tipo:</label>
 
                             <select name="type_id" id="type_id">
-                                <option value="">
+                                <option value="" {{ old('type_id') == null ? 'selected' : '' }}>
                                     Scegli il tipo...
                                 </option>
     
