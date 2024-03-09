@@ -16,6 +16,23 @@
                         Type: {{ $project->type->name }}
                     </h2>
 
+                    {{-- Tecnologie usate --}}
+                    <div class="my-3">
+                        <h2>
+                            Tecnologie:
+                        </h2>
+
+                        <ul>
+                            @forelse ($project->technologies as $technology)
+                                <li>
+                                    {{ $technology->name }}
+                                </li>
+                            @empty
+                                -
+                            @endforelse
+                        </ul>
+                    </div>
+
                     <p>
                         {{ $project->description }}
                     </p>
