@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateProjectRequest;
 
 // Models
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 
 class ProjectController extends Controller
@@ -32,7 +33,9 @@ class ProjectController extends Controller
     {
         $types = Type::all();
 
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -47,6 +50,11 @@ class ProjectController extends Controller
             'description' => $validDatas['description'],
             'type_id' => $validDatas['type_id']
         ]);
+
+        // Scorro l'array delle checkbox e creo associazione con la nuova istanza di project
+        foreach ($validDatas['technologies'] as $oneTechId) {
+            $project->technologies()->attach($oneTechId);
+        }
 
         return redirect()->route('admin.projects.show', compact('project'));
     }

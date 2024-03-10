@@ -13,7 +13,11 @@
 
                     {{-- Tipo del progetto --}}
                     <h2 class="my-3">
-                        Type: {{ $project->type->name }}
+                        @if ($project->type)
+                            Type: {{ $project->type->name }}
+                        @else
+                            -
+                        @endif
                     </h2>
 
                     {{-- Tecnologie usate --}}

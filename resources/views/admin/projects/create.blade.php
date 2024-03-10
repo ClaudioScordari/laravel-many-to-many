@@ -56,6 +56,21 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        {{-- Tecnologie --}}
+                        <div class="my-4">
+                            <label class="d-block" for="type_id">Scegli le tecnologie per il progetto:</label>
+
+                            @foreach ($technologies as $technology)
+                                <div class="form-check">
+                                    <input class="form-check-input" name="technologies[]" type="checkbox" value="{{ $technology->id }}" id="technology-{{ $technology->id }}">
+
+                                    <label class="form-check-label" for="{{ $technology->id }}">
+                                        {{ $technology->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
             
                         <div class="mb-3">
                             <label class="d-block" for="description">Descrizione:</label>

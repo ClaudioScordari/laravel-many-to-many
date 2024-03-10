@@ -12,7 +12,7 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
-        'type_id'
+        'type_id',
     ];
 
     // Relationships

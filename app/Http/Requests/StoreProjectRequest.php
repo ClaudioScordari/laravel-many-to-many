@@ -24,7 +24,8 @@ class StoreProjectRequest extends FormRequest
         return [
             'name' => 'required|max:64', 
             'description'   => 'nullable|max:4096',
-            'type_id' => 'nullable|exists:types,id'
+            'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'nullable|array|exists:technologies,id'
         ];
     }
 }
