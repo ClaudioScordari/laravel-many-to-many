@@ -51,9 +51,14 @@ class ProjectController extends Controller
             'type_id' => $validDatas['type_id']
         ]);
 
-        // Scorro l'array delle checkbox e creo associazione con la nuova istanza di project
-        foreach ($validDatas['technologies'] as $oneTechId) {
-            $project->technologies()->attach($oneTechId);
+
+        // Se l'array dei tag passati è pieno...
+        if (isset($validDatas['technologies'])) {
+
+            // Scorro l'array delle checkbox e creo associazione con la nuova istanza di $project
+            foreach ($validDatas['technologies'] as $oneTechId) {
+                $project->technologies()->attach($oneTechId);
+            }
         }
 
         return redirect()->route('admin.projects.show', compact('project'));
@@ -74,7 +79,9 @@ class ProjectController extends Controller
     {
         $types = Type::all();
 
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -84,7 +91,14 @@ class ProjectController extends Controller
     {
         $validDatas = $request->validated();
 
-        $project->update($validDatas);
+        $project->update($validDatas); 
+
+        if (isset($validDatas['technologies'])) {
+            $project->technologies()->sync($validDatas['technologies']);
+        } 
+        else {
+            $project->technologies()->detach();
+        }
 
         return redirect()->route('admin.projects.show', compact('project'));
     }
