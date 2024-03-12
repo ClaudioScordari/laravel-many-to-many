@@ -26,7 +26,7 @@
 
                     <br>
 
-                    <form action="{{ route('admin.projects.store') }}" method="POST">
+                    <form action="{{ route('admin.projects.store') }}" method="POST" enctype="multipart/form-data" >
                         @csrf
             
                         <div class="mb-3">
@@ -75,6 +75,12 @@
                                     </label>
                                 </div>
                             @endforeach
+                        </div>
+
+                        {{-- File da aggiungere --}}
+                        <div class="mb-3">
+                            <label for="dataFile" class="form-label">Scegli un'immagine:</label>
+                            <input style="width: 25%" class="form-control" type="file" id="dataFile" name="dataFile">
                         </div>
             
                         <div class="mb-3">

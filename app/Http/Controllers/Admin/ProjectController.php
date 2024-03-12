@@ -14,6 +14,9 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 
+// Facades
+use Illuminate\Support\Facades\Storage;
+
 class ProjectController extends Controller
 {
     /**
@@ -44,6 +47,9 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $validDatas = $request->validated();
+
+        // Intercettare il file che mi arriva dal create
+        $imgPath = Storage::disk('public')->put('img', $validDatas['dataFile']);
 
         $project = Project::create([
             'name' => $validDatas['name'],
