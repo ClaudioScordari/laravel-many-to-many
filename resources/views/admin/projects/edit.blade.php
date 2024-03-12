@@ -77,6 +77,24 @@
                                 </div>
                             @endforeach
                         </div>
+
+                        {{-- File da aggiungere --}}
+                        <div class="mb-3">
+                            <label for="dataFile" class="form-label">Scegli un'immagine:</label>
+                            <input style="width: 25%" class="form-control" type="file" id="dataFile" name="dataFile">
+                            
+                            {{-- Immagine corrente --}}
+                            @if ($project->image_src != null)
+                                <div class="my-3">
+                                    <img style="width: 300px" src="/storage/{{ $project->image_src }}" alt="image">
+                                </div>
+                            @endif
+
+                            <div>
+                                <input type="checkbox" name="remove_img" id="remove_img">
+                                <label for="remove_img" class="form-label">- Rimuovi immagine</label>
+                            </div>
+                        </div>
             
                         <div class="mb-3">
                             <label class="d-block" for="description">Descrizione:</label>

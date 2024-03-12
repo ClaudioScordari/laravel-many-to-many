@@ -48,8 +48,14 @@ class ProjectController extends Controller
     {
         $validDatas = $request->validated();
 
-        // Intercettare il file che mi arriva dal create
-        $imgPath = Storage::disk('public')->put('img', $validDatas['dataFile']);
+        // Comunque setto il percorso a null, così il percorso rimane null se non ce niente
+        $imgPath = null;
+
+        // Se l'input del file è pieno, mi riempio il percorso
+        if (isset($validDatas['dataFile'])) {
+            // Intercettare il file che mi arriva dal create
+            $imgPath = Storage::disk('public')->put('img', $validDatas['dataFile']);
+        }
 
         $project = Project::create([
             'name' => $validDatas['name'],
@@ -99,6 +105,14 @@ class ProjectController extends Controller
         $validDatas = $request->validated();
 
         $project->update($validDatas); 
+
+        /*
+            Cose da fare per i file:
+            1) Aggiungere img se prima non c'era;
+            2) rimuovere img corrente;
+            3) sostituzione dell'img con una nuova;
+            4) non fare niente.
+        */
 
         if (isset($validDatas['technologies'])) {
             $project->technologies()->sync($validDatas['technologies']);
