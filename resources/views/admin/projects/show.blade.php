@@ -37,6 +37,21 @@
                         </ul>
                     </div>
 
+                    {{-- Immagine associata --}}
+                    <div class="my-3">
+                        <h2>
+                            Immagine:
+                        </h2>
+
+                        @if ($project->image_src != null)
+                            <div>
+                                <img style="width: 300px" src="/storage/{{ $project->image_src }}" alt="image1">
+                            </div>
+                        @else
+                            -
+                        @endif
+                    </div>
+
                     <p>
                         {{ $project->description }}
                     </p>

@@ -54,7 +54,8 @@ class ProjectController extends Controller
         $project = Project::create([
             'name' => $validDatas['name'],
             'description' => $validDatas['description'],
-            'type_id' => $validDatas['type_id']
+            'type_id' => $validDatas['type_id'],
+            'image_src' => $imgPath
         ]);
 
 
