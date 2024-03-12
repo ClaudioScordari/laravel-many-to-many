@@ -27,6 +27,7 @@ class UpdateProjectRequest extends FormRequest
             'type_id' => 'nullable|exists:types,id',
             'technologies' => 'nullable|array|exists:technologies,id',
             'dataFile' => 'nullable|image',
+            'remove_file' => 'nullable|boolean',
         ];
     }
 }

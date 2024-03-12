@@ -104,15 +104,53 @@ class ProjectController extends Controller
     {
         $validDatas = $request->validated();
 
-        $project->update($validDatas); 
-
         /*
             Cose da fare per i file:
-            1) Aggiungere img se prima non c'era;
+            1) Aggiungere img se prima non c'era; 
+
             2) rimuovere img corrente;
-            3) sostituzione dell'img con una nuova;
-            4) non fare niente.
+
+            3) sostituzione dell'img con una nuova; 
+                - controllo se l'input è vuoto o pieno (input dell'img)
+                - svuoto il percorso vecchio
+                - aggiorno il percorso
+
+            4) non fare niente. 
         */
+
+        // Setto il percorso dell'img con quello originale, anche se era null
+        $imgPath = $project->image_src;
+
+        // Se l'input è pieno...
+        if (isset($validDatas['dataFile'])) {
+
+            // Controllo se il percorso corrente è pieno...
+            if ($project->image_src != null) {
+
+                // Elimino il percorso corrente
+                Storage::disk('public')->delete($project->image_src);
+            }
+
+            // Setto il nuovo percorso
+            $imgPath = Storage::disk('public')->put('img', $validDatas['dataFile']);
+
+        }
+        // Altrimenti se è vuoto (l'input), e megari mi spunta la checkbox, si vuole eliminare l'img 
+        else if (isset($validDatas['remove_file'])) {
+
+            // elimino il percorso
+            Storage::disk('public')->delete($project->image_src);
+            
+            // mi riempio la var del percorso a null
+            $imgPath = null;
+        }
+        
+        $project->update([
+            'name' => $validDatas['name'],
+            'description' => $validDatas['description'],
+            'type_id' => $validDatas['type_id'],
+            'image_src' => $imgPath
+        ]); 
 
         if (isset($validDatas['technologies'])) {
             $project->technologies()->sync($validDatas['technologies']);
@@ -129,7 +167,18 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        /*
+            Se elimino il progetto:
+            devo controllare se ha img associate, cioè
+            devo svuotare la riga della sua img se è piena
+        */
+        if ($project->image_src != null) {
+            Storage::disk('public')->delete($project->image_src);
+        }
+
+        // e poi elimino il progetto
         $project->delete();
+
         return redirect()->route('admin.projects.index');
     }
 }

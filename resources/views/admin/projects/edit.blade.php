@@ -82,6 +82,12 @@
                         <div class="mb-3">
                             <label for="dataFile" class="form-label">Scegli un'immagine:</label>
                             <input style="width: 25%" class="form-control" type="file" id="dataFile" name="dataFile">
+                            {{-- Barra errore --}}
+                            @error('dataFile')
+                                <div class="alert alert-danger">	
+                                    {{ $message }} 
+                                </div>
+                            @enderror
                             
                             {{-- Immagine corrente --}}
                             @if ($project->image_src != null)
@@ -90,10 +96,25 @@
                                 </div>
                             @endif
 
-                            <div>
-                                <input type="checkbox" name="remove_img" id="remove_img">
-                                <label for="remove_img" class="form-label">- Rimuovi immagine</label>
-                            </div>
+                            {{-- 
+                                Checkbox per eliminare l'img,
+                                anche se non dobbiamo salvarlo nel db, comunque 
+                                dobbiamo validarlo, altrimenti nei dati nel backend non arriva.
+
+                                Validazione = nullable|boolean.
+
+                                Si mette come value dell'input 1 perchè 
+                                devo controllare se questo è pieno in update()
+
+                                Se quel progetto ha una img associata mi fai vedere l'input
+                            --}}
+                            @if ($project->image_src != null)
+                                <div>
+                                    <input value="1" type="checkbox" name="remove_file" id="remove_file">
+                                    <label for="remove_file" class="form-label">- Rimuovi immagine</label>
+                                </div>
+                            @endif
+
                         </div>
             
                         <div class="mb-3">
